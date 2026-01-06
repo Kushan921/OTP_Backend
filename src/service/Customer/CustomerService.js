@@ -32,6 +32,7 @@ class CustomerService {
             include: [
               {
                 model: EmailAccount,
+                attributes: ["id", "email", "provider", "isActive"],
                 through: { attributes: [] },
               },
             ],
@@ -81,6 +82,7 @@ class CustomerService {
             include: [
               {
                 model: EmailAccount,
+                attributes: ["id", "email", "provider", "isActive"],
                 through: { attributes: [] },
               },
             ],
@@ -177,6 +179,7 @@ class CustomerService {
             include: [
               {
                 model: EmailAccount,
+                attributes: ["id", "email", "provider", "isActive"],
                 through: { attributes: [] },
               },
             ],
@@ -249,6 +252,40 @@ class CustomerService {
 
       return {
         message: "AccountType and selected EmailAccount assigned to customer",
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  static async assignEmailAccount(customerId, emailAccountId) {
+    try {
+      const customer = await Customer.findByPk(customerId);
+      if (!customer) throw new Error("Customer not found");
+
+      const emailAccount = await EmailAccount.findByPk(emailAccountId, {
+        include: {
+          model: AccountType,
+          through: { attributes: [] },
+        },
+      });
+
+      if (!emailAccount) throw new Error("EmailAccount not found");
+
+      const accountType =
+        (emailAccount.AccountTypes && emailAccount.AccountTypes[0]) || null;
+
+      if (!accountType) {
+        throw new Error(
+          "Selected EmailAccount is not linked to any AccountType"
+        );
+      }
+
+      await customer.addAccountType(accountType);
+      await customer.addEmailAccount(emailAccount);
+
+      return {
+        message: "EmailAccount assigned to customer",
       };
     } catch (error) {
       throw new Error(error.message);

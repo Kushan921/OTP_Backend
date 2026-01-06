@@ -87,6 +87,19 @@ const customerController = {
     }
   },
 
+  assignEmailAccount: async (req, res) => {
+    try {
+      const { customerId, emailAccountId } = req.body;
+      const result = await CustomerService.assignEmailAccount(
+        customerId,
+        emailAccountId
+      );
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
+
   resetPassword: async (req, res) => {
     try {
       const { customerId, newPassword } = req.body;

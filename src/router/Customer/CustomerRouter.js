@@ -12,6 +12,7 @@ router.delete('/:id', customerController.deleteCustomer);
 
 router.post('/assign-account', customerController.assignAccountType);
 router.post('/unassign-account', customerController.unassignAccountType);
+router.post('/assign-email', customerController.assignEmailAccount);
 router.post('/reset-password', customerController.resetPassword);
 
 module.exports = router;

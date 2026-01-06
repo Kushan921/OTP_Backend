@@ -1,10 +1,7 @@
 import cors from "cors";
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:4173",
-  "http://13.212.69.50:5173",
-  "http://13.212.69.50:5173/"
+  "https://brave-beach-0d27f4b0f.4.azurestaticapps.net"
 ]; 
 
 app.use(

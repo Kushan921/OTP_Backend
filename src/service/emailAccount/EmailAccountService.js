@@ -52,6 +52,7 @@ class EmailAccountService {
   static async getAllEmailAccounts({ limit, offset } = {}) {
     try {
       return await EmailAccount.findAll({
+        attributes: ["id", "email", "provider", "isActive"],
         include: {
           model: AccountType,
           through: { attributes: [] },
